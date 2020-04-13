@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="pt">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ImDb</title>
+    <style>
+      @import url(https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css);
+      @import url(https://fonts.googleapis.com/css?family=Montserrat:400, 700);
+      * {
+        box-sizing: border-box;
+        font-family: "Montserrat", sans-serif;
+      }
+      header {
+        background-image: url(./images/banner.jpg);
+        background-attachment: fixed;
+
+        width: 100%;
+        height: 520px !important;
+        margin: 0;
+        padding: 0;
+        background-size: cover;
+        display: flex;
+        flex-direction: column;
+      }
+      banner {
+        background: linear-gradient(
+          0deg,
+          rgba(0, 0, 0, 0.6) 0%,
+          rgba(0, 212, 255, 0) 75%
+        );
+        position: absolute;
+        top: 0;
+        width: 100%;
+        height: 520px;
+      }
+
+      header nav {
+        margin: 0px 9rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        margin-top: 1.2rem;
+      }
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f2f2f2;
+      }
+
+      header nav ul {
+        margin-bottom: 0 !important;
+      }
+      ul {
+        display: flex;
+        list-style: none;
+        flex-direction: row;
+      }
+      li {
+        margin-right: 3.5rem;
+      }
+      li a {
+        font-size: 0.96rem;
+        text-decoration: none;
+        color: #fff;
+        font-weight: 600;
+      }
+      nav li a {
+        transition: all 0.3s ease-in-out;
+      }
+      nav li a:hover {
+        color: #e4bb23;
+      }
+      .profile {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+      }
+      .avatar img {
+        width: 45px;
+        height: 45px;
+        border-radius: 50px;
+        margin-right: 0.7rem;
+      }
+      .profile .name {
+        font-size: 13px;
+        color: #fff;
+        font-weight: 700;
+      }
+      .banner-Container {
+        margin: 0px 13rem;
+      }
+      .banner-Container h2 {
+        font-size: 4.15rem;
+        font-weight: bold;
+        color: #fff;
+        text-transform: uppercase;
+        line-height: 1.2em;
+        margin-bottom: 16px;
+      }
+
+      .genero a {
+        text-transform: uppercase;
+        text-decoration: none;
+        color: #fff;
+        font-size: 13px;
+        margin-right: 10px;
+      }
+
+      .genero a:hover {
+        color: #e4bb23;
+      }
+      .botao {
+        margin-top: 30px;
+        display: flex;
+        justify-content: center;
+        padding: 15px;
+        background-color: #e4bb23;
+        border-radius: 50px;
+        width: 12rem;
+        transition: all 0.3s ease-in-out;
+        cursor: pointer;
+        text-decoration: none !important;
+        color: black;
+        font-size: 15px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .botao i {
+        margin-left: 10px;
+        font-size: 20px;
+      }
+
+      .botao:hover {
+        background-color: #bc9a1d;
+      }
+
+      .info {
+        margin-top: 30px;
+      }
+      .info p {
+        font-size: 14px;
+        color: #fff;
+      }
+      .info .data {
+        color: #e4bb23;
+      }
+
+      section {
+      }
+      section nav {
+      }
+      section nav ul {
+        display: flex;
+        justify-content: center;
+        margin-top: 0;
+        margin-bottom: 0;
+      }
+      section nav li {
+        margin-right: 2.5rem;
+        padding: 23px 10px;
+      }
+      section nav a {
+        color: #e4bb23;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 13px;
+      }
+      section nav li:hover {
+        box-shadow: inset 0 -1px 0 #e4bb23;
+      }
+      .catalago-filme {
+        margin: 0 auto;
+        width: 70%;
+        padding: 10px;
+        box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.08);
+      }
+      .catalago-filme ul {
+        padding: 0;
+      }
+      .catalago-filme .box-poster {
+        width: 25%;
+        height: auto;
+        display: flex;
+        flex-direction: column;
+        border-radius: 8px;
+        background-color: #fff;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-right: 15px;
+      }
+      .info-visible {
+        background-color: rgba(0, 0, 0, 0.6);
+        display: flex;
+        flex-direction: column;
+        color: #e4bb23;
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        top: 0;
+        justify-content: center;
+        align-items: center;
+        visibility: hidden;
+        transition: all 0.2s ease-in-out;
+        opacity: 0;
+        border-radius: 8px 8px 0 0;
+      }
+
+      .info-visible h3 {
+        font-size: 21px;
+        text-transform: uppercase;
+      }
+      .info-visible i {
+        font-size: 48px;
+        color: #fff;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+      }
+
+      .info-visible i:hover {
+        color: #e4bb23;
+      }
+
+      .box-poster:hover .info-visible {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .catalago-filme .poster {
+        border-radius: 8px 8px 0px 0;
+        position: relative;
+      }
+      .catalago-filme .poster img {
+        width: 100%;
+        height: auto;
+        border-radius: 8px 8px 0px 0;
+      }
+      .catalago-filme .info {
+        margin: 0 7px 0px;
+      }
+      .catalago-filme .info p {
+        color: #e4bb23;
+        font-size: 12px;
+      }
+      .catalago-filme .info h3 {
+        color: #000;
+        font-weight: bold;
+        font-size: 12.5px;
+        text-transform: uppercase;
+      }
+      .avaliacao {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        margin-bottom: 15px;
+        margin-top: 5px;
+        align-items: center;
+      }
+      .avaliacao p {
+        margin: 0;
+        font-size: 20px !important;
+        color: #000 !important;
+        font-weight: bold !important;
+      }
+      .avaliacao i {
+        font-size: 20px !important;
+        color: #ccc;
+      }
+      .avaliacao i:hover {
+        color: #e74c3c;
+        cursor: pointer;
+      }
+      footer {
+        background-color: #fff;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 20px 200px !important;
+      }
+      footer li {
+        margin-right: 2rem;
+      }
+      footer .rede-social i {
+        font-size: 25px;
+        color: #bababa;
+      }
+      footer .rede-social i.fa.fa-twitter:hover {
+        color: #55acee;
+        transition: all 0.3s ease-in-out;
+      }
+
+      footer .rede-social i.fa.fa-facebook-square:hover {
+        color: #3b5998;
+        transition: all 0.3s ease-in-out;
+      }
+      footer .rede-social i.fa.fa-instagram:hover {
+        color: #e95950;
+        transition: all 0.3s ease-in-out;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <banner />
+      <nav>
+        <div class="logo">
+          <img src="./images/logo-imdb.jpg" alt="imdb" />
+        </div>
+        <div class="menu">
+          <ul>
+            <li><a href="#">Lançamentos</a></li>
+            <li><a href="#">Critica</a></li>
+            <li><a href="#">Em Cartaz</a></li>
+          </ul>
+        </div>
+        <div class="profile">
+          <div class="avatar">
+            <img src="./images/profile.jpg" alt="avatar" />
+          </div>
+          <div class="name">
+            Walter White
+          </div>
+        </div>
+      </nav>
+
+      <div class="banner-Container">
+        <h2>
+          Mad Max: Estrada da Fúria
+        </h2>
+        <div class="genero">
+          <a href="#">aventura</a>
+          <a href="#">sci-fi</a>
+          <a href="#">terror</a>
+        </div>
+        <a class="botao">
+          Assistir Trailer
+          <i class="fa fa-play-circle-o"></i>
+        </a>
+        <div class="info">
+          <p>Nos Cinemas</p>
+          <p class="data">15 de Outubro de 2015(Brasil)</p>
+        </div>
+      </div>
+    </header>
+    <!-- content -->
+    <section>
+      <nav>
+        <ul>
+          <li><a href="#">Nos Cinemas</a></li>
+          <li><a href="#">Bilheteria</a></li>
+          <li><a href="#">Em breve</a></li>
+          <li><a href="#">Séries</a></li>
+          <li><a href="#">Trailers</a></li>
+        </ul>
+      </nav>
+      <div class="catalago-filme">
+        <ul>
+          <li class="box-poster">
+            <div class="poster">
+              <img src="./images/movies/poster-moonlight.jpg" alt="" />
+              <div class="info-visible">
+                <h3>
+                  Moonlight
+                </h3>
+
+                <i class="fa fa-play" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="info">
+              <h3>Moonlight</h3>
+              <p>Drama</p>
+              <div class="avaliacao">
+                <i class="fa fa-heart" aria-hidden="true"></i>
+
+                <p>7.0</p>
+              </div>
+            </div>
+          </li>
+
+          <!--  -->
+          <li class="box-poster">
+            <div class="poster">
+              <img src="./images/movies/poster-bladerunner.jpg" alt="" />
+              <div class="info-visible">
+                <h3>
+                  Moonlight
+                </h3>
+
+                <i class="fa fa-play" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="info">
+              <h3>Blade Runner</h3>
+
+              <p>Aventura, SCI-FI, Terror</p>
+
+              <div class="avaliacao">
+                <i class="fa fa-heart" aria-hidden="true"></i>
+
+                <p>7.0</p>
+              </div>
+            </div>
+          </li>
+
+          <!--  -->
+
+          <li class="box-poster">
+            <div class="poster">
+              <img src="./images/movies/poster-mad-max.jpg" alt="" />
+              <div class="info-visible">
+                <h3>
+                  Mad MAx
+                </h3>
+
+                <i class="fa fa-play" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="info">
+              <h3>Mad MAx</h3>
+              <p>Aventura,SCI-FI,Terror</p>
+              <div class="avaliacao">
+                <i class="fa fa-heart" aria-hidden="true"></i>
+
+                <p>7.0</p>
+              </div>
+            </div>
+          </li>
+
+          <!--  -->
+
+          <li class="box-poster">
+            <div class="poster">
+              <img src="./images/movies/poster-alita.jpg" alt="" />
+              <div class="info-visible">
+                <h3>
+                  Alita
+                </h3>
+
+                <i class="fa fa-play" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="info">
+              <h3>Alita</h3>
+              <p>Aventura,SCI-FI</p>
+              <div class="avaliacao">
+                <i class="fa fa-heart" aria-hidden="true"></i>
+
+                <p>7.0</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+
+        <!--  -->
+
+        <ul>
+          <li class="box-poster">
+            <div class="poster">
+              <img src="./images/movies/poster-batman-superman.jpg" alt="" />
+              <div class="info-visible">
+                <h3>
+                  Batman vs Superman
+                </h3>
+
+                <i class="fa fa-play" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="info">
+              <h3>Batman vs Superman</h3>
+              <p>Ação,Drama</p>
+              <div class="avaliacao">
+                <i class="fa fa-heart" aria-hidden="true"></i>
+
+                <p>7.0</p>
+              </div>
+            </div>
+          </li>
+
+          <!--  -->
+          <li class="box-poster">
+            <div class="poster">
+              <img src="./images/movies/poster-jurassic-world.jpg" alt="" />
+              <div class="info-visible">
+                <h3>
+                  Jurassic World
+                </h3>
+
+                <i class="fa fa-play" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="info">
+              <h3>Jurassic World</h3>
+
+              <p>Aventura,Terror</p>
+
+              <div class="avaliacao">
+                <i class="fa fa-heart" aria-hidden="true"></i>
+
+                <p>7.0</p>
+              </div>
+            </div>
+          </li>
+
+          <!--  -->
+
+          <li class="box-poster">
+            <div class="poster">
+              <img src="./images/movies/poster-civil-war.jpg" alt="" />
+              <div class="info-visible">
+                <h3>
+                  Guerra Civil
+                </h3>
+
+                <i class="fa fa-play" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="info">
+              <h3>Guerra Civil</h3>
+              <p>Aventura,Ação</p>
+              <div class="avaliacao">
+                <i class="fa fa-heart" aria-hidden="true"></i>
+
+                <p>7.0</p>
+              </div>
+            </div>
+          </li>
+
+          <!--  -->
+
+          <li class="box-poster">
+            <div class="poster">
+              <img src="./images/movies/poster-capita-marvel.jpg" alt="" />
+              <div class="info-visible">
+                <h3>
+                  Captain Marvel
+                </h3>
+
+                <i class="fa fa-play" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="info">
+              <h3>Captain Marvel</h3>
+              <p>SCI-FI</p>
+              <div class="avaliacao">
+                <i class="fa fa-heart" aria-hidden="true"></i>
+
+                <p>9.0</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+
+        <ul>
+          <li class="box-poster">
+            <div class="poster">
+              <img src="./images/movies/poster-coringa.jpg" alt="" />
+              <div class="info-visible">
+                <h3>
+                  Coringa
+                </h3>
+
+                <i class="fa fa-play" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="info">
+              <h3>Coringa</h3>
+              <p>Suspense,Drama</p>
+              <div class="avaliacao">
+                <i class="fa fa-heart" aria-hidden="true"></i>
+
+                <p>10</p>
+              </div>
+            </div>
+          </li>
+
+          <!--  -->
+          <li class="box-poster">
+            <div class="poster">
+              <img src="./images/movies/poster-liga-justica.jpg" alt="" />
+              <div class="info-visible">
+                <h3>
+                  Liga da Justiça
+                </h3>
+
+                <i class="fa fa-play" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="info">
+              <h3>Liga da Justiça</h3>
+
+              <p>Aventura,Ação</p>
+
+              <div class="avaliacao">
+                <i class="fa fa-heart" aria-hidden="true"></i>
+
+                <p>7.5</p>
+              </div>
+            </div>
+          </li>
+
+          <!--  -->
+
+          <li class="box-poster">
+            <div class="poster">
+              <img src="./images/movies/poster-star-wars.jpg" alt="" />
+              <div class="info-visible">
+                <h3>
+                  Star Wars VII
+                </h3>
+
+                <i class="fa fa-play" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="info">
+              <h3>Star Wars VII</h3>
+              <p>Aventura,SCI-FI</p>
+              <div class="avaliacao">
+                <i class="fa fa-heart" aria-hidden="true"></i>
+
+                <p>7.0</p>
+              </div>
+            </div>
+          </li>
+
+          <!--  -->
+
+          <li class="box-poster">
+            <div class="poster">
+              <img src="./images/movies/poster-pantera-negra.jpg" alt="" />
+              <div class="info-visible">
+                <h3>
+                  Pantera Negra
+                </h3>
+
+                <i class="fa fa-play" aria-hidden="true"></i>
+              </div>
+            </div>
+            <div class="info">
+              <h3>Pantera Negra</h3>
+              <p>Aventura,SCI-FI</p>
+              <div class="avaliacao">
+                <i class="fa fa-heart" aria-hidden="true"></i>
+
+                <p>9.0</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- footer -->
+    <footer>
+      <div class="logo">
+        <img src="./images/logo-imdb.jpg" alt="imdb" />
+      </div>
+      <ul class="rede-social">
+        <li>
+          <a href="">
+            <i class="fa fa-twitter"></i>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <i class="fa fa-facebook-square"></i>
+          </a>
+        </li>
+        <li>
+          <a href="">
+            <i class="fa fa-instagram"></i>
+          </a>
+        </li>
+      </ul>
+    </footer>
+  </body>
+</html>
